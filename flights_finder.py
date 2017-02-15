@@ -23,30 +23,24 @@ class flights_finder(object):
 			self.initialize_flight_data()
 
 
-		# self.departure_date = self.convert_datetime_to_date(self.convert_date_to_datetime(self.initiale_departure_date) - datetime.timedelta(days=self.initial_range))
-		self.departure_date = self.get_timedelta(
-												date = self.initiale_departure_date,
-												n = self.initial_range,
-												relation = False)
+		self.departure_date = self.get_timedelta(date = self.initiale_departure_date,
+													n = self.initial_range,
+													relation = False)
 
-		self.last_departure_day = self.get_timedelta(
-												date = self.initiale_departure_date,
-												n = self.initial_range,
-												relation = True)
-		# self.last_departure_day = self.convert_datetime_to_date(self.convert_date_to_datetime(self.initiale_departure_date) + datetime.timedelta(days=self.initial_range))
+		self.last_departure_day = self.get_timedelta(date = self.initiale_departure_date,
+														n = self.initial_range,
+														relation = True)
 
+		
+		arrival_date = self.get_timedelta(date = self.initiale_arrival_date,
+											n = self.initial_range,
+											relation = False)
+
+		self.create_routine(arrival_date)
+		
 		self.range = self.initial_range
 		self.shouldTerminate = False
-		
-		arrival_date = self.get_timedelta(
-										date = self.initiale_arrival_date,
-										n = self.initial_range,
-										relation = False)
-		# arrival_date = self.convert_datetime_to_date(self.convert_date_to_datetime(self.initiale_arrival_date) - datetime.timedelta(days=self.initial_range))
-		self.create_routine(arrival_date)
 		self.unchecked_days_left = (self.initial_range*2+1)**2
-
-		# self.to_string()
 
 
 	def create_routine(self, arrival_date):
@@ -55,7 +49,7 @@ class flights_finder(object):
 		self.routine = []
 
 		i = 0
-		stop = self.range*2+1
+		stop = self.initial_range*2+1
 		while i < stop:
 			self.routine.append(arrival_date)
 			arrival_date = self.update_loop_date(self.initiale_arrival_date, arrival_date)
@@ -74,7 +68,6 @@ class flights_finder(object):
 
 
 	def initialize_departure_details(self):
-		# self.initiale_departure_date = input("Please enter the *deprture date* in this format: 22/7/1991 => 910722\n")
 		
 		try:
 			day = input("Please enter the departure Day: ")
@@ -99,7 +92,6 @@ class flights_finder(object):
 
 
 	def initialize_arrival_details(self):
-		# self.initiale_departure_date = input("Please enter the *deprture date* in this format: 22/7/1991 => 910722\n")
 		
 		try:
 			day = input("Please enter the return Day: ")
