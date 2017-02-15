@@ -27,18 +27,27 @@ class flights_finder(object):
 		self.departure_date = self.get_timedelta(
 												date = self.initiale_departure_date,
 												n = self.initial_range,
-												relation = False
-												)
+												relation = False)
 
-		self.last_departure_day = self.convert_datetime_to_date(self.convert_date_to_datetime(self.initiale_departure_date) + datetime.timedelta(days=self.initial_range))
+		self.last_departure_day = self.get_timedelta(
+												date = self.initiale_departure_date,
+												n = self.initial_range,
+												relation = True)
+		# self.last_departure_day = self.convert_datetime_to_date(self.convert_date_to_datetime(self.initiale_departure_date) + datetime.timedelta(days=self.initial_range))
+
 		self.range = self.initial_range
 		self.shouldTerminate = False
 		
-		arrival_date = self.convert_datetime_to_date(self.convert_date_to_datetime(self.initiale_arrival_date) - datetime.timedelta(days=self.initial_range))
+		arrival_date = self.get_timedelta(
+										date = self.initiale_arrival_date,
+										n = self.initial_range,
+										relation = False)
+		# arrival_date = self.convert_datetime_to_date(self.convert_date_to_datetime(self.initiale_arrival_date) - datetime.timedelta(days=self.initial_range))
 		self.create_routine(arrival_date)
 		self.unchecked_days_left = (self.initial_range*2+1)**2
 
-		self.to_string()
+		# self.to_string()
+
 
 	def create_routine(self, arrival_date):
 
@@ -55,12 +64,14 @@ class flights_finder(object):
 
 		self.range =  self.initial_range
 
+
 	def get_timedelta(self, date, n, relation):
 
 		if relation:
 			return self.convert_datetime_to_date(self.convert_date_to_datetime(date) + datetime.timedelta(days=n))
 		else:
 			return self.convert_datetime_to_date(self.convert_date_to_datetime(date) - datetime.timedelta(days=n))
+
 
 	def initialize_departure_details(self):
 		# self.initiale_departure_date = input("Please enter the *deprture date* in this format: 22/7/1991 => 910722\n")
@@ -107,6 +118,9 @@ class flights_finder(object):
 			print "Invalid input. please enter a number in accordance to the format\n"
 			self.initialize_arrival_details()
 		except SyntaxError:
+			print "Invalid input. please enter a number in accordance to the format\n"
+			self.initialize_arrival_details()
+		except ValueError:
 			print "Invalid input. please enter a number in accordance to the format\n"
 			self.initialize_arrival_details()
 
@@ -175,8 +189,10 @@ class flights_finder(object):
 			(month <= 0) or \
 			(month > 12) or \
 			(year <= 2016) or \
-			(drange < 0) or \
-			():
+			(drange < 0):
+			# (self.get_timedelta(date = self.initiale_arrival_date, n = self.initial_range, relation = False) > \
+			# 	self.get_timedelta(date = self.initiale_departure_date, n = self.initial_range, relation = True)) or \
+			# (datetime.date.today() > self.get_timedelta(date = self.initiale_departure_date, n = self.initial_range, relation = False)):
 
 			print "Invalid input. Please try again.\n"
 			ok = False
